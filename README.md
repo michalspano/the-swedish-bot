@@ -1,7 +1,7 @@
 # **The Swedish Twitter Bot**
 ![Icon](Assets/swedish_twitter_bot_final.jpg) <br>
 > [Twitter Profile](https://twitter.com/TheSwedishBot), [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1Y8az4H5XGhBtKizaz6atYyhMCUeVif2c7-hUXNEtlhw/edit?usp=sharing), [Add to your server](https://discord.com/api/oauth2/authorize?client_id=860479686156353556&permissions=2148005952&scope=bot) <br>
-> Created via `gspead`, `tweepy`, `discord`, `flask`.
+> Created via `gspread`, `tweepy`, `discord`, `flask`.
 
 > Bot commands
 > 1. Use `--help` to configure the bot in your server.
