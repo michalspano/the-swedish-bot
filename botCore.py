@@ -3,15 +3,17 @@ import logging
 import tweepy
 import time
 import gspread
+import discord
 from config import export_API
 
 logger = logging.getLogger("Exception logger")
+client = discord.Client()
 
 
 class TwitterDataModel:
-    def __init__(self, api, keyword, tweet_range):
+    def __init__(self, api, keyword, lang, tweet_range):
         self.api = api
-        self.keyword = keyword
+        self.keyword, self.lang = keyword, lang
         self.tweet_range = tweet_range
 
     def export_twitter_data(self):
@@ -19,22 +21,17 @@ class TwitterDataModel:
                                                    q=f"{self.keyword}-filter:retweets",
                                                    rpp=20,
                                                    result_type="recent",
-                                                   tweet_mode="extended").items(self.tweet_range)]
+                                                   tweet_mode="extended",
+                                                   lang=self.lang).items(self.tweet_range)]
         for tweet in tweets:
             tweet_status = self.api.get_status(tweet.id)
             retweeted, liked = tweet_status.retweeted, tweet_status.favorited
-            try:
-                possibly_sensitive_content = str(tweet_status.possibly_sensitive)
-                if possibly_sensitive_content:
-                    continue
-            except AttributeError as e:
-                logger.error(e)
-
-            if not retweeted and not liked:
-                GoogleSpreadSheet(tweet).format_tweet()
-                tweet.favorite(), tweet.retweet()
-                print(f"Retweeted at {tweet.id}")
-                break
+            if hasattr(tweet, "possibly_sensitive"):
+                if not retweeted and not liked and not tweet_status.possibly_sensitive:
+                    GoogleSpreadSheet(tweet).format_tweet()
+                    tweet.favorite(), tweet.retweet()
+                    print(f"Retweeted at {tweet.id}")
+                    break
 
 
 class GoogleSpreadSheet:
@@ -54,13 +51,13 @@ class GoogleSpreadSheet:
         return
 
 
-def main(key_tags, time_interval):
+def main(key_tags, lang, time_interval):
     api = export_API()
     while True:
         logger.info("**Parsing tweets**")
-        TwitterDataModel(api, key_tags, 15).export_twitter_data()
+        TwitterDataModel(api, key_tags, lang, 15).export_twitter_data()
         time.sleep(time_interval)
 
 
 if __name__ == "__main__":
-    main("#Sweden OR #Sverige", (60 * 60))
+    main("#Sweden OR #Sverige", "en OR sv", 15)
