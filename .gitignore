@@ -131,6 +131,7 @@ dmypy.json
 # Secrets
 keys.txt
 CursorObjects.txt
+secrets.json
 
 # Google API secret client
 credentials.json

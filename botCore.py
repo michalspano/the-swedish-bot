@@ -1,5 +1,7 @@
 #  Libs to be used
 import logging
+import os
+
 import tweepy
 import time
 import gspread
@@ -10,12 +12,14 @@ logger = logging.getLogger("Exception logger")
 client = discord.Client()
 
 
+#  Custom Twitter model
 class TwitterDataModel:
     def __init__(self, api, keyword, lang, tweet_range):
         self.api = api
         self.keyword, self.lang = keyword, lang
         self.tweet_range = tweet_range
 
+    #  Loads tweets via tweepy.Cursor with specified settings
     def export_twitter_data(self):
         tweets = [tweet for tweet in tweepy.Cursor(self.api.search,
                                                    q=f"{self.keyword}-filter:retweets",
@@ -23,23 +27,31 @@ class TwitterDataModel:
                                                    result_type="recent",
                                                    tweet_mode="extended",
                                                    lang=self.lang).items(self.tweet_range)]
+        #  Loops through tweets from the scope
         for tweet in tweets:
             tweet_status = self.api.get_status(tweet.id)
             retweeted, liked = tweet_status.retweeted, tweet_status.favorited
             if hasattr(tweet, "possibly_sensitive"):
+
+                #  Likes and retweets a tweet if: no like and no retweet previously + no sensitive content
                 if not retweeted and not liked and not tweet_status.possibly_sensitive:
+
+                    #  Calls the Google spreadsheet module
                     GoogleSpreadSheet(tweet).format_tweet()
                     tweet.favorite(), tweet.retweet()
                     print(f"Retweeted at {tweet.id}")
+                    #  Breaks the loop if feasible tweet returned
                     break
 
 
+# Custom Google Spreadsheets API module
 class GoogleSpreadSheet:
     def __init__(self, tweet):
         self.tweet = tweet
         self.gs = gspread.service_account(filename="credentials.json")
         self.sh = self.gs.open("@TheSwedishBot-spreadsheet").sheet1
 
+    #  Appends selected data to a database via Google spreadsheets through credentials.json as gs
     def format_tweet(self):
         display_user_name = self.tweet.user.screen_name
         url_f = f"https://twitter.com/{display_user_name}/status/{self.tweet.id}"
@@ -47,10 +59,12 @@ class GoogleSpreadSheet:
         sh_data = [url_f, str(self.tweet.created_at), self.tweet.full_text,
                    display_user_name, favorite_count,
                    retweet_count, self.tweet.lang]
+        #  Appends a single row as a list
         self.sh.append_row(sh_data)
         return
 
 
+#  Main function looped in a time interval
 def main(key_tags, lang, time_interval):
     api = export_API()
     while True:
@@ -59,5 +73,6 @@ def main(key_tags, lang, time_interval):
         time.sleep(time_interval)
 
 
+#  Main loop with keywords and time limit
 if __name__ == "__main__":
-    main("#Sweden OR #Sverige", "en OR sv", 15)
+    main("#Sweden OR #Sverige", "en OR sv", int(os.environ["TIME_INTERVAL"]))
