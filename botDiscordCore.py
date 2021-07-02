@@ -5,6 +5,8 @@ import discord
 import os
 import time
 
+from flaskProvider import keep_alive
+
 client = discord.Client()
 
 
@@ -43,12 +45,20 @@ class HelpCommands:
     #  Returns the --help command content with discord.Embed()
     def embed_help_commands(self):
         help_commands_desc = str()
-        for line in open(self.path, "r").readlines():
-            help_commands_desc += line
+        help_data = [line for line in open(self.path, "r").readlines()]
+        description_data = help_data[:len(help_data) - 3]
+        for data_char in description_data:
+            help_commands_desc += data_char
+
+        #  Configuration of discord.Embed() with respective properties
         embed_message = discord.Embed(title="--help command",
                                       description=help_commands_desc,
                                       url=str(os.environ["GITHUB_LINK"]),
-                                      color=discord.Color.dark_green())
+                                      color=discord.Color.from_rgb(255, 255, 0))
+        embed_message.add_field(name="Twitter profile",
+                                value=str(help_data[-2]), inline=True)
+        embed_message.add_field(name="Developed by",
+                                value=str(help_data[-1]), inline=True)
         embed_message.set_author(name=client.user.display_name,
                                  icon_url=client.user.avatar_url)
         return embed_message
@@ -100,7 +110,6 @@ async def on_message(message, start_method="--"):
 
     # To do if --start was prompted by a user
     while client_switch:
-
         #  Loads the returned em. object from the custom class
         obj_instance = load_secrets("secrets.json")
         embed_object = EmbedMessage(obj_instance[0], obj_instance[1],
@@ -111,4 +120,5 @@ async def on_message(message, start_method="--"):
 
 
 client_switch = False
+keep_alive()
 client.run(os.environ["TOKEN"])

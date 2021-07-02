@@ -5,4 +5,5 @@ Here are my commands:
 > 1. Use `--start` to initialise the hourly discord thread.
 > 2. Use `--stop` to terminate the hourly discord thread.
 
-Developed by: [@michalspano](https://github.com/michalspano)
+[@TheSwedishBot](https://twitter.com/TheSwedishBot)
+[@michalspano](https://github.com/michalspano)
