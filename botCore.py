@@ -1,12 +1,12 @@
 #  Libs to be used
 import logging
 import os
-
 import tweepy
 import time
 import gspread
 import discord
 from config import export_API
+from flaskProvider import keep_alive
 
 logger = logging.getLogger("Exception logger")
 client = discord.Client()
@@ -75,4 +75,5 @@ def main(key_tags, lang, time_interval):
 
 #  Main loop with keywords and time limit
 if __name__ == "__main__":
+    keep_alive()
     main("#Sweden OR #Sverige", "en OR sv", int(os.environ["TIME_INTERVAL"]))
