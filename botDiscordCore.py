@@ -1,13 +1,14 @@
 import json
 import discord
 import os
-import time
 
+from discord.ext import commands
+from asyncio import sleep as s
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from flaskProvider import keep_alive
 
-client = discord.Client()
+bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None)
 
 
 #  Class to process and embed a message
@@ -61,14 +62,13 @@ class HelpCommands:
                                 value=str(help_data[-1]), inline=True)
 
         #  Author and icon set via client's cred. data
-        embed_message.set_author(name=client.user.display_name,
-                                 icon_url=client.user.avatar_url)
+        embed_message.set_author(name=bot.user.display_name,
+                                 icon_url=bot.user.avatar_url)
         return embed_message
 
 
 #  Loads data from Google spreadsheet via Google API
 def load_secrets(path):
-
     #  Loads from .json module
     with open(path, ) as secretsJSON:
         secrets = json.load(secretsJSON)
@@ -80,7 +80,6 @@ def load_secrets(path):
     #  API credentials with valid scope
     credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE,
                                                                         scopes=SCOPES)
-
     #  Spread sheet ID number
     SAMPLE_SPREAD_SHEET_ID = secrets["sheet_id"]
     service = build("sheets", "v4", credentials=credentials)
@@ -98,47 +97,39 @@ def load_secrets(path):
     return values[last_index]
 
 
-@client.event
-async def on_ready():
-    #  Bot log. detection
-    await client.change_presence(activity=discord.Game(name="--help"))
-    print(f"Logged in as {client.user}")
-
-
-@client.event
-async def on_message(message, start_method="--"):
+# To initialise the bot
+@bot.command(name="start")
+async def start_news_thread(ctx):
     global client_switch
+    client_switch = True
+    while client_switch:
+        print("Tweeting...")
+        #  Loads the returned em. object from the custom class
+        embed_object = EmbedMessage(load_secrets("secrets.json"),
+                                    str(ctx.author), client_switch).embed_discord_message()
+        await ctx.channel.send(f"{ctx.author.mention} enabled the thread. "
+                               f"Use `--stop` to terminate it or `--help`.")
+        await ctx.channel.send(embed=embed_object)
+        await s(int(os.environ["TIME_INTERVAL"]))
 
-    #  Stop to prevent bot replying to itself
-    if message.author == client.user:
-        return
 
-    #  Detect if a message starts with the default intend
-    if message.content.startswith(start_method):
-        user_message = message.content[2:].replace(" ", "")
+# To terminate the bot
+@bot.command(name="stop")
+async def stop_news_thread(ctx):
+    global client_switch
+    client_switch = False
+    print("Terminating...")
+    await ctx.channel.send(f"{ctx.author.mention} disabled the thread. "
+                           f"Use `--start` to configure it or `--help`.")
 
-        # To initialise the bot
-        if user_message == "start":
-            client_switch = True
 
-        # To terminate the bot
-        elif user_message == "stop":
-            client_switch = False
-
-        # Help command to config.
-        elif user_message == "help":
-            embed_message = HelpCommands("help_command.txt").embed_help_commands()
-            await message.channel.send(embed=embed_message)
-
-        while client_switch:
-            print("Tweeting...")
-            #  Loads the returned em. object from the custom class
-            embed_object = EmbedMessage(load_secrets("secrets.json"),
-                                        str(message.author), client_switch).embed_discord_message()
-            await message.channel.send(embed=embed_object)
-            time.sleep(3600)
+# Help command to config.
+@bot.command(name="help")
+async def help_command(ctx):
+    embed_message = HelpCommands("help_command.txt").embed_help_commands()
+    await ctx.channel.send(embed=embed_message)
 
 
 client_switch = False
 keep_alive()
-client.run(os.environ["TOKEN"])
+bot.run(os.environ["TOKEN"])
