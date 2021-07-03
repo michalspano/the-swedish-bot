@@ -8,7 +8,8 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from flaskProvider import keep_alive
 
-bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None)
+bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None,
+                              activity=discord.Activity(type=discord.ActivityType.listening, name="--help"))
 
 
 #  Class to process and embed a message
@@ -102,13 +103,15 @@ def load_secrets(path):
 async def start_news_thread(ctx):
     global client_switch
     client_switch = True
+
+    #  Initial thread-enabled message
+    await ctx.channel.send(f"{ctx.author.mention} enabled the thread. "
+                           f"Use `--stop` to terminate it or `--help`.")
     while client_switch:
         print("Tweeting...")
         #  Loads the returned em. object from the custom class
         embed_object = EmbedMessage(load_secrets("secrets.json"),
                                     str(ctx.author), client_switch).embed_discord_message()
-        await ctx.channel.send(f"{ctx.author.mention} enabled the thread. "
-                               f"Use `--stop` to terminate it or `--help`.")
         await ctx.channel.send(embed=embed_object)
         await s(int(os.environ["TIME_INTERVAL"]))
 
