@@ -1,5 +1,4 @@
 #  Libs to be used
-import os
 import tweepy
 import time
 import gspread
@@ -20,12 +19,12 @@ class TwitterDataModel:
 
     #  Loads tweets via tweepy.Cursor with specified settings
     def export_twitter_data(self):
+        query = f"{self.keyword} -filter:retweets lang:{self.lang[0]} OR lang:{self.lang[1]}"
         tweets = [tweet for tweet in tweepy.Cursor(self.api.search,
-                                                   q=f"{self.keyword}-filter:retweets",
+                                                   q=query,
                                                    rpp=20,
                                                    result_type="recent",
-                                                   tweet_mode="extended",
-                                                   lang=self.lang).items(self.tweet_range)]
+                                                   tweet_mode="extended").items(self.tweet_range)]
         #  Loops through tweets from the scope
         for tweet in tweets:
             tweet_status = self.api.get_status(tweet.id)
@@ -79,4 +78,4 @@ def main(key_tags, lang, time_interval):
 #  Main loop with keywords and time limit
 if __name__ == "__main__":
     keep_alive()
-    main("#Sweden OR #Sverige", "en OR sv", int(os.environ["TIME_INTERVAL"]))
+    main("#Sweden OR #Sverige", ["en", "sv"], (60 * 60))
