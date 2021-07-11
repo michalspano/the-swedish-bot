@@ -30,17 +30,15 @@ class TwitterDataModel:
         for tweet in tweets:
             tweet_status = self.api.get_status(tweet.id)
             retweeted, liked = tweet_status.retweeted, tweet_status.favorited
-            if hasattr(tweet, "possibly_sensitive"):
+            #  Likes and retweets a tweet if: no like and no retweet previously
+            if not retweeted and not liked:
 
-                #  Likes and retweets a tweet if: no like and no retweet previously + no sensitive content
-                if not retweeted and not liked and not tweet_status.possibly_sensitive:
-
-                    #  Calls the Google spreadsheet module
-                    GoogleSpreadSheet(tweet).format_tweet()
-                    tweet.favorite(), tweet.retweet()
-                    print(f"{time_module()}; retweeted {tweet.id}")
-                    #  Breaks the loop if feasible tweet returned
-                    break
+                #  Calls the Google spreadsheet module
+                GoogleSpreadSheet(tweet).format_tweet()
+                tweet.favorite(), tweet.retweet()
+                print(f"{time_module()}; retweeted {tweet.id}")
+                #  Breaks the loop if feasible tweet returned
+                break
 
 
 # Custom Google Spreadsheets API module
@@ -73,7 +71,7 @@ def time_module():
 def main(key_tags, lang, time_interval):
     api = export_API()
     while True:
-        print("**Parsing tweets**")
+        print("**Parsing tweets**\n")
         TwitterDataModel(api, key_tags, lang, 15).export_twitter_data()
         time.sleep(time_interval)
 
