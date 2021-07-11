@@ -1,5 +1,4 @@
 #  Libs to be used
-import logging
 import os
 import tweepy
 import time
@@ -7,8 +6,8 @@ import gspread
 import discord
 from config import export_API
 from flaskProvider import keep_alive
+from datetime import datetime as dt
 
-logger = logging.getLogger("Exception logger")
 client = discord.Client()
 
 
@@ -39,7 +38,7 @@ class TwitterDataModel:
                     #  Calls the Google spreadsheet module
                     GoogleSpreadSheet(tweet).format_tweet()
                     tweet.favorite(), tweet.retweet()
-                    print(f"Retweeted at {tweet.id}")
+                    print(f"{time_module()}; retweeted {tweet.id}")
                     #  Breaks the loop if feasible tweet returned
                     break
 
@@ -64,11 +63,17 @@ class GoogleSpreadSheet:
         return
 
 
+#  Current time module function
+def time_module():
+    time_now = dt.now().strftime("%d. %m. (%A) - %H:%M:%S")
+    return time_now
+
+
 #  Main function looped in a time interval
 def main(key_tags, lang, time_interval):
     api = export_API()
     while True:
-        logger.info("**Parsing tweets**")
+        print("**Parsing tweets**")
         TwitterDataModel(api, key_tags, lang, 15).export_twitter_data()
         time.sleep(time_interval)
 
