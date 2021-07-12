@@ -6,7 +6,8 @@ from discord.ext import commands
 from asyncio import sleep as s
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
-from flaskProvider import keep_alive
+from collections import Counter
+#  from flaskProvider import keep_alive
 
 bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None,
                               activity=discord.Activity(type=discord.ActivityType.listening, name="--help"))
@@ -14,10 +15,9 @@ bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=Non
 
 #  Class to process and embed a message
 class EmbedMessage:
-    def __init__(self, data, user, switch):
+    def __init__(self, data, user):
         self.data = data
         self.user = user
-        self.switch = switch
 
     def embed_discord_message(self):
         tweet_data = self.data
@@ -34,7 +34,7 @@ class EmbedMessage:
         return embed_message
 
 
-class HelpCommands:
+class Commands:
     def __init__(self, path):
         self.path = path
 
@@ -51,7 +51,7 @@ class HelpCommands:
             help_commands_desc += data_char
 
         #  Configuration of discord.Embed() with respective properties
-        embed_message = discord.Embed(title="--help command",
+        embed_message = discord.Embed(title="Help command",
                                       description=help_commands_desc,
                                       url=str(os.environ["GITHUB_LINK"]),
                                       color=discord.Color.from_rgb(255, 255, 0))
@@ -66,6 +66,32 @@ class HelpCommands:
         embed_message.set_author(name=bot.user.display_name,
                                  icon_url=bot.user.avatar_url)
         return embed_message
+
+    #  Embed status command message, only default data from single path (local .txt command description)
+    def embed_status_command(self, status=str()):
+
+        #  Reads from a local .txt file with em. description
+        for line in open(self.path, "r").readlines():
+            status += line
+
+        #  Latency var rounded in milliseconds
+        latency = f"{round(bot.latency * (10 ** 3))}ms"
+
+        #  Embed preferences including author, fields, etc
+        embed_msg = discord.Embed(title="Status command",
+                                  description=status,
+                                  url=str(os.environ["GITHUB_LINK"]),
+                                  color=discord.Color.dark_blue())
+
+        #  Custom author header
+        embed_msg.set_author(name=bot.user.display_name,
+                             icon_url=bot.user.avatar_url)
+
+        #  Custom subfield
+        embed_msg.add_field(name="Ping: ",
+                            value=latency,
+                            inline=True)
+        return embed_msg
 
 
 #  Loads data from Google spreadsheet via Google API
@@ -92,14 +118,38 @@ def load_secrets(path):
 
     #  Creates a list instance from result scope
     values = result.get("values", [])
-    last_index = len(values) - 1
 
     #  Returns the latest thread
-    return values[last_index]
+    return values
+
+
+#  Initial bot load status
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user}")
+
+
+#  Status latency command
+@bot.command(aliases=["Status", "status"])
+async def bot_status(ctx):
+    db_instance = load_secrets("secrets.json")
+    tweets_counter = len(db_instance)
+
+    lang_dict = Counter([db_instance[i][-1] for i in range(tweets_counter - 100, tweets_counter)])
+    print(lang_dict)
+
+    lang_list = [[key, value] for key, value in lang_dict.items()]
+    print(lang_list)
+
+    embed_status_message = Commands("status_command.txt").embed_status_command()
+    embed_status_message.add_field(name="Number of tweets",
+                                   value=str(tweets_counter),
+                                   inline=True)
+    await ctx.send(embed=embed_status_message)
 
 
 # To initialise the bot
-@bot.command(name="start")
+@bot.command(aliases=["Start", "start"])
 async def start_news_thread(ctx):
     global client_switch
     client_switch = True
@@ -110,14 +160,16 @@ async def start_news_thread(ctx):
     while client_switch:
         print("Tweeting...")
         #  Loads the returned em. object from the custom class
-        embed_object = EmbedMessage(load_secrets("secrets.json"),
-                                    str(ctx.author), client_switch).embed_discord_message()
+        tweet_values = load_secrets("secrets.json")
+        specified_value = tweet_values[(len(tweet_values) - 1)]
+        embed_object = EmbedMessage(specified_value,
+                                    str(ctx.author)).embed_discord_message()
         await ctx.channel.send(embed=embed_object)
         await s(int(os.environ["TIME_INTERVAL"]))
 
 
 # To terminate the bot
-@bot.command(name="stop")
+@bot.command(aliases=["Stop", "stop"])
 async def stop_news_thread(ctx):
     global client_switch
     client_switch = False
@@ -127,12 +179,12 @@ async def stop_news_thread(ctx):
 
 
 # Help command to config.
-@bot.command(name="help")
+@bot.command(aliases=["Help", "help", "h"])
 async def help_command(ctx):
-    embed_message = HelpCommands("help_command.txt").embed_help_commands()
+    embed_message = Commands(path="help_command.txt").embed_help_commands()
     await ctx.channel.send(embed=embed_message)
 
 
 client_switch = False
-keep_alive()
+#  keep_alive()
 bot.run(os.environ["TOKEN"])
