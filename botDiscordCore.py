@@ -9,7 +9,7 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from collections import Counter
 
-#  from flaskProvider import keep_alive
+from flaskProvider import keep_alive
 
 bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None,
                               activity=discord.Activity(type=discord.ActivityType.listening, name="--help"))
@@ -181,5 +181,5 @@ async def help_command(ctx):
     await ctx.channel.send(embed=embed_message)
 
 
-#  keep_alive()
+keep_alive()
 bot.run(os.environ["TOKEN"])
