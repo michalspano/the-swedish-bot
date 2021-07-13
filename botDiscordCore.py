@@ -154,33 +154,24 @@ async def bot_status(ctx):
     await ctx.send(embed=final_em_status_msg)
 
 
-# To initialise the bot
-@bot.command(aliases=["Start", "start"])
-async def start_news_thread(ctx):
-    global client_switch
-    client_switch = True
+#  Load data method
+@bot.command(aliases=["Load", "load", "l"])
+async def load_tweet_msg(ctx, operator: str = None, count: int = 5, time: float = 5):
+    db_instance = load_secrets("secrets.json")
 
-    #  Initial thread-enabled message
-    await ctx.channel.send(f"{ctx.author.mention} enabled the thread. "
-                           f"Use `--stop` to terminate it or `--help`.")
-    while client_switch:
-        print("Tweeting...")
-        #  Loads the returned em. object from the custom class
-        tweet_values = load_secrets("secrets.json")
-        specified_value = tweet_values[(len(tweet_values) - 1)]
-        embed_object = Commands(specified_value).embed_discord_message(user=str(ctx.author))
-        await ctx.channel.send(embed=embed_object)
-        await s(10)
+    #  Primitive load
+    if operator is None:
+        instance = db_instance[-1]
+        embed_message = Commands(instance).embed_discord_message(user=ctx.author)
+        await ctx.send(embed=embed_message)
 
-
-# To terminate the bot
-@bot.command(aliases=["Stop", "stop"])
-async def stop_news_thread(ctx):
-    global client_switch
-    client_switch = False
-    print("Terminating...")
-    await ctx.channel.send(f"{ctx.author.mention} disabled the thread. "
-                           f"Use `--start` to configure it or `--help`.")
+    #  Complex load
+    elif operator == "recent" or operator == "r":
+        for i in range(count):
+            instance = db_instance[-1 - i]
+            embed_message = Commands(instance).embed_discord_message(user=ctx.author)
+            await ctx.send(embed=embed_message)
+            await s(time)
 
 
 # Help command to config.
@@ -190,6 +181,5 @@ async def help_command(ctx):
     await ctx.channel.send(embed=embed_message)
 
 
-client_switch = False
 #  keep_alive()
 bot.run(os.environ["TOKEN"])
