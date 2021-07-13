@@ -5,8 +5,7 @@
 ## Introduction
 ***
 Hej! I am the **Swedish Twitter Bot!**
-I *retweet* hourly under #Sweden and #Sverige on **Twitter**! 🇸🇪 
-I'm also a **Discord Bot** with multiple functions!
+I *retweet* hourly under #Sweden and #Sverige on **Twitter**! 🇸🇪 I'm also a **Discord Bot** with multiple functions!
 
 ## Details
 ***
@@ -16,7 +15,7 @@ I'm also a **Discord Bot** with multiple functions!
 ## Bot commands
 ***
 Use any of my *commands* by the *default bot prefix* (abbreviation **DBP**) `--` or just *mention me* `@The Swedish Twitter Bot`;
-command prefix or command aliases (abbreviation **CP**).
+use my *command prefix or command aliases* (abbreviation **CP**).
 
 ```*NOTE*: different operators in a single command are stylized with a space```
 
