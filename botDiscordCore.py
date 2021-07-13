@@ -2,38 +2,20 @@ import json
 import discord
 import os
 
+from discord import Embed
 from discord.ext import commands
 from asyncio import sleep as s
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 from collections import Counter
+
 #  from flaskProvider import keep_alive
 
 bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None,
                               activity=discord.Activity(type=discord.ActivityType.listening, name="--help"))
 
 
-#  Class to process and embed a message
-class EmbedMessage:
-    def __init__(self, data, user):
-        self.data = data
-        self.user = user
-
-    def embed_discord_message(self):
-        tweet_data = self.data
-        embed_title = f"@{tweet_data[3]} tweeted at {tweet_data[1]} [{tweet_data[6].upper()}]"
-
-        #  Creates an embedded message with all settings respectively
-        embed_message = discord.Embed(title=embed_title, url=tweet_data[0],
-                                      description=tweet_data[2], colour=discord.Colour.blue())
-        embed_message.add_field(name="Number of likes", value=tweet_data[4], inline=True)
-        embed_message.add_field(name="Number of retweets", value=tweet_data[5], inline=True)
-        embed_message.set_footer(text=f"Requested by {self.user}")
-
-        #  Returns an embedded discord object
-        return embed_message
-
-
+#  Universal class for respective commands (and their embeds)
 class Commands:
     def __init__(self, path):
         self.path = path
@@ -67,8 +49,22 @@ class Commands:
                                  icon_url=bot.user.avatar_url)
         return embed_message
 
+    def embed_discord_message(self, user):
+        tweet_data = self.path
+        embed_title = f"@{tweet_data[3]} tweeted at {tweet_data[1]} [{tweet_data[6].upper()}]"
+
+        #  Creates an embedded message with all settings respectively
+        embed_message = discord.Embed(title=embed_title, url=tweet_data[0],
+                                      description=tweet_data[2], colour=discord.Colour.blue())
+        embed_message.add_field(name="Number of likes", value=tweet_data[4], inline=True)
+        embed_message.add_field(name="Number of retweets", value=tweet_data[5], inline=True)
+        embed_message.set_footer(text=f"Requested by {user}")
+
+        #  Returns an embedded discord object
+        return embed_message
+
     #  Embed status command message, only default data from single path (local .txt command description)
-    def embed_status_command(self, status=str()):
+    def embed_status_message(self, db, status=str()):
 
         #  Reads from a local .txt file with em. description
         for line in open(self.path, "r").readlines():
@@ -77,21 +73,43 @@ class Commands:
         #  Latency var rounded in milliseconds
         latency = f"{round(bot.latency * (10 ** 3))}ms"
 
-        #  Embed preferences including author, fields, etc
-        embed_msg = discord.Embed(title="Status command",
-                                  description=status,
-                                  url=str(os.environ["GITHUB_LINK"]),
-                                  color=discord.Color.dark_blue())
+        #  Number of rows in the database
+        tweets_counter = len(db)
 
-        #  Custom author header
-        embed_msg.set_author(name=bot.user.display_name,
-                             icon_url=bot.user.avatar_url)
+        #  Lang. parameter from the latest 100 submissions ordered in a dict.
+        lang_dict = Counter([db[i][-1] for i in range(tweets_counter - 100, tweets_counter)])
 
-        #  Custom subfield
-        embed_msg.add_field(name="Ping: ",
-                            value=latency,
-                            inline=True)
-        return embed_msg
+        #  Transformed dict. to a list
+        lang_list = [[value, key] for key, value in lang_dict.items()]
+
+        #  The most frequent lang value
+        max_lang = max(lang_list)[1]
+
+        def assign_values():
+            #  Embed preferences including author, fields, etc
+            embed_message: Embed = discord.Embed(title="Status command",
+                                                 description=status,
+                                                 url=str(os.environ["GITHUB_LINK"]),
+                                                 color=discord.Color.dark_blue())
+
+            #  Custom author header
+            embed_message.set_author(name=bot.user.display_name,
+                                     icon_url=bot.user.avatar_url)
+            #  Embed message fields
+            embed_message.add_field(name="🔊 | Ping: ",
+                                    value=latency,
+                                    inline=True)
+            #  Custom message field with the number of tweets from the database
+            embed_message.add_field(name="✍️ | Number of tweets",
+                                    value=str(tweets_counter),
+                                    inline=True)
+
+            #  Custom message field with the dominant language from the parsed tweets
+            embed_message.add_field(name="🗣 | Dominant language: ",
+                                    value=max_lang,
+                                    inline=True)
+            return embed_message
+        return assign_values()
 
 
 #  Loads data from Google spreadsheet via Google API
@@ -130,22 +148,10 @@ async def on_ready():
 
 
 #  Status latency command
-@bot.command(aliases=["Status", "status"])
+@bot.command(aliases=["Status", "status", "s"])
 async def bot_status(ctx):
-    db_instance = load_secrets("secrets.json")
-    tweets_counter = len(db_instance)
-
-    lang_dict = Counter([db_instance[i][-1] for i in range(tweets_counter - 100, tweets_counter)])
-    print(lang_dict)
-
-    lang_list = [[key, value] for key, value in lang_dict.items()]
-    print(lang_list)
-
-    embed_status_message = Commands("status_command.txt").embed_status_command()
-    embed_status_message.add_field(name="Number of tweets",
-                                   value=str(tweets_counter),
-                                   inline=True)
-    await ctx.send(embed=embed_status_message)
+    final_em_status_msg = Commands("status_command.txt").embed_status_message(db=load_secrets("secrets.json"))
+    await ctx.send(embed=final_em_status_msg)
 
 
 # To initialise the bot
@@ -162,10 +168,9 @@ async def start_news_thread(ctx):
         #  Loads the returned em. object from the custom class
         tweet_values = load_secrets("secrets.json")
         specified_value = tweet_values[(len(tweet_values) - 1)]
-        embed_object = EmbedMessage(specified_value,
-                                    str(ctx.author)).embed_discord_message()
+        embed_object = Commands(specified_value).embed_discord_message(user=str(ctx.author))
         await ctx.channel.send(embed=embed_object)
-        await s(int(os.environ["TIME_INTERVAL"]))
+        await s(10)
 
 
 # To terminate the bot
