@@ -1,11 +1,20 @@
 # **The Swedish Twitter Bot**
 ***
-![Icon](Assets/swedish_twitter_bot_final.jpg) <br>
+[Initial comment]: <> (Custom contributions buttons + custom url mentions)
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+![Icon](Assets/swedish_twitter_bot_final.jpg)
 
 ## Introduction
 ***
 Hej! I am the **Swedish Twitter Bot!**
-I *retweet* hourly under #Sweden and #Sverige on **Twitter**! 🇸🇪 I'm also a **Discord Bot** with multiple functions!
+I *retweet* hourly under #Sweden and #Sverige on **Twitter**! 🇸🇪 I'm also a **Discord Bot** with multiple functions! <br>
+- [__📊 | Explore the docs__](https://github.com/michalspano/The-Swedish-Bot) 
+- [__📩 | Report an issue__](https://github.com/michalspano/The-Swedish-Bot/issuest)
 
 ## Details
 ***
@@ -20,23 +29,37 @@ use my *command prefix or command aliases* (abbreviation **CP**).
 ```*NOTE*: different operators in a single command are stylized with a space```
 
 ### 📶 | **Status command**
-> Invoke aliases: `Status`, `status` or `s`
-> Syntax: `DBP CP`
-> Reports current trends about the database and the latency (ping) status
+> - Invoke aliases: `Status`, `status` or `s`
+> - Syntax: `DBP CP`
+> - Reports current trends about the database and the latency (ping) status
 
 ### ⏬ | **Load command**
-> Invoke aliases: `Load`, `load`, `l`
-> Default syntax: `DBP CP operator n k`; `operator: str = None`, `n: int = 5`, `k: float = 5.0` [operator, n, k are *optional values*; their *type* and *default value* is specified]
-> **Primitive load**: `CBP CD` - loads the latest submission in an embedded text message
-> **Complex load**: Corresponding to *Default syntax*; `operator` prefix `recent` or `r`;
-> `n` specifies the *number of retrieved tweets*; `k` specifies their *input interval* (i.e. delay)
-> E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
+> - Invoke aliases: `Load`, `load`, `l`
+> - Default syntax: `DBP CP operator n k`; `operator: str = None`, `n: int = 5`, `k: float = 5.0` [operator, n, k are *optional values*; their *type* and *default value* is specified]
+> - **Primitive load**: `CBP CD` - loads the latest submission in an embedded text message
+> - **Complex load**: Corresponding to *Default syntax*; `operator` prefix `recent` or `r`;
+> - `n` specifies the *number of retrieved tweets*; `k` specifies their *input interval* (i.e. delay)
+> - E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
 
 ### ℹ️ | **Help command**
-> Invoke aliases: `Help`, `help`, `h`
-> Syntax: `DBP CP`
-> Reports possible guidance and appropriate information
+> - Invoke aliases: `Help`, `help`, `h`
+> - Syntax: `DBP CP`
+> - Reports possible guidance and appropriate information
 
 ### 📩 | Socials
 > [@TheSwedishBot](https://twitter.com/TheSwedishBot)
 > [@michalspano](https://github.com/michalspano)
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/michalspano/The-Swedish-Bot/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/michalspano/The-Swedish-Bot/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/michalspano/The-Swedish-Bot/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/michalspano/The-Swedish-Bot/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/michalspano/The-Swedish-Bot/blob/main/LICENSE.md
