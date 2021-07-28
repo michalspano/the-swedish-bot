@@ -128,11 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Secrets
-keys.txt
-CursorObjects.txt
-secrets.json
-
-# Google API secret client
-credentials.json
-googleAPI_client.py
+# Exclude secrets
+/docs/ignore
