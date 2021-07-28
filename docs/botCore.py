@@ -44,7 +44,7 @@ class TwitterDataModel:
 class GoogleSpreadSheet:
     def __init__(self, tweet):
         self.tweet = tweet
-        self.gs = gspread.service_account(filename="credentials.json")
+        self.gs = gspread.service_account(filename="ignore/credentials.json")
         self.sh = self.gs.open("@TheSwedishBot-spreadsheet").sheet1
 
     #  Appends selected data to a database via Google spreadsheets through credentials.json as gs

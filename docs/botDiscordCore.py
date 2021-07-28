@@ -150,14 +150,14 @@ async def on_ready():
 #  Status latency command
 @bot.command(aliases=["Status", "status", "s"])
 async def bot_status(ctx):
-    final_em_status_msg = Commands("status_command.txt").embed_status_message(db=load_secrets("secrets.json"))
+    final_em_status_msg = Commands("data/status_command.txt").embed_status_message(db=load_secrets("secrets.json"))
     await ctx.send(embed=final_em_status_msg)
 
 
 #  Load data method
 @bot.command(aliases=["Load", "load", "l"])
 async def load_tweet_msg(ctx, operator: str = None, count: int = 5, time: float = 5):
-    db_instance = load_secrets("secrets.json")
+    db_instance = load_secrets("ignore/secrets.json")
 
     #  Primitive load
     if operator is None:
@@ -177,7 +177,7 @@ async def load_tweet_msg(ctx, operator: str = None, count: int = 5, time: float 
 # Help command to config.
 @bot.command(aliases=["Help", "help", "h"])
 async def help_command(ctx):
-    embed_message = Commands(path="help_command.txt").embed_help_commands()
+    embed_message = Commands(path="data/help_command.txt").embed_help_commands()
     await ctx.channel.send(embed=embed_message)
 
 
