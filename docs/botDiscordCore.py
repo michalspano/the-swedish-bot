@@ -11,6 +11,7 @@ from collections import Counter
 
 from flaskProvider import keep_alive
 
+# Create a bot instance with a default prefix and a bot activity stataus
 bot = commands.AutoShardedBot(commands.when_mentioned_or("--"), help_command=None,
                               activity=discord.Activity(type=discord.ActivityType.listening, name="--help"))
 
