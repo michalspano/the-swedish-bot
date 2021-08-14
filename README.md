@@ -19,8 +19,8 @@ I'm also a **Discord Bot** with multiple functions! <br>
 
 ## Details
 
-[*Twitter Profile*][TWITTER]
-[*Google Spreadsheet*][GS]
+[*Twitter Profile*][TWITTER] -
+[*Google Spreadsheet*][GS] -
 [*Add to your server!*][ADD] <br>
 #### Created via `gspread`, `tweepy`, `discord.py`, `flask`.
 
@@ -54,12 +54,13 @@ ___
 
 ### 📩 Socials
 ___
-> [@TheSwedishBot][TWITTER]
-> [@michalspano][GITHUB]
+
+[@TheSwedishBot][TWITTER]
+[@michalspano][GITHUB]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[TWITTER]: (https://twitter.com/TheSwedishBot)
+[TWITTER]: https://twitter.com/TheSwedishBot
 [GS]: https://docs.google.com/spreadsheets/d/1Y8az4H5XGhBtKizaz6atYyhMCUeVif2c7-hUXNEtlhw/edit?usp=sharing
 [ADD]: https://discord.com/api/oauth2/authorize?client_id=860479686156353556&permissions=2148005952&scope=bot
 [GITHUB]: https://github.com/michalspano
