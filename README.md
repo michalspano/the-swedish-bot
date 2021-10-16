@@ -18,36 +18,51 @@ I'm also a **Discord Bot** with multiple functions! <br>
 
 <!-- Collapsible socials -->
 <details>
-    <summary>Open me!</summary>
-    <p>
+<summary>Open me!</summary>
+<p>
 
-    - [__📊 Explore my docs__](https://github.com/michalspano/The-Swedish-Bot)
-    - [__📩 Report an issue__](https://github.com/michalspano/The-Swedish-Bot/issues)
-    - [__🌐 Website__](https://michalspano.github.io/The-Swedish-Bot/)
-    </p>
+- [__📊 Explore my docs__](https://github.com/michalspano/The-Swedish-Bot)
+- [__📩 Report an issue__](https://github.com/michalspano/The-Swedish-Bot/issues)
+- [__🌐 Website__](https://michalspano.github.io/The-Swedish-Bot/)
+</p>
 </details>
 
 ## Details
+
+<details>
+<summary>Read more about me!</summary>
+<p>
 
 [*Twitter Profile*][TWITTER] -
 [*Google Spreadsheet*][GS] -
 [*Add to your server!*][ADD] <br>
 #### Created via `gspread`, `tweepy`, `discord.py`, `flask`.
+    
+</p>
+</details>
 
 ## Bot commands
 
-Use any of my *commands* by the *default bot prefix* (abbreviation **DBP**) `--` or just *mention me* `@The Swedish Twitter Bot`;
-use my *command prefix or command aliases* (abbreviation **CP**).
+- [x] Use any of my *commands* by the *default bot prefix* (abbreviation **DBP**) `--` or just *mention me* `@The Swedish Twitter Bot`
+- [x] Use my *command prefix or command aliases* (abbreviation **CP**).
 
 ```*NOTE*: different operators in a single command are stylized with a space```
 
-### 📶 **Status command**
+<details>
+<summary><b>📶 Status command</b></summary>
+<p>
+
 ___
 - Invoke aliases: `Status`, `status` or `s`
 - Syntax: `DBP CP`
 - Reports current trends about the database and the latency (ping) status
+</p>
+</details>
 
-### ⏬ **Load command**
+<details>
+<summary><b>⏬ Load command</b></summary>
+<p>
+
 ___
 - Invoke aliases: `Load`, `load`, `l`
 - Default syntax: `DBP CP operator n k`; `operator: str = None`, `n: int = 5`, `k: float = 5.0` [operator, n, k are *optional values*; their *type* and *default value* is specified]
@@ -55,12 +70,19 @@ ___
 - **Complex load**: Corresponding to *Default syntax*; `operator` prefix `recent` or `r`;
 - `n` specifies the *number of retrieved tweets*; `k` specifies their *input interval* (i.e. delay)
 - E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
+</p>
+</details>
 
-### ℹ️ **Help command**
+<details>
+<summary>️<b>ℹ️ Help command</b></summary>
+<p>
+
 ___
 - Invoke aliases: `Help`, `help`, `h`
 - Syntax: `DBP CP`
 - Reports possible guidance and appropriate information
+</p>
+</details>
 
 ### 📩 Socials
 ___
