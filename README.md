@@ -13,9 +13,19 @@
 Hej! I am the **Swedish Twitter Bot!**
 I *retweet* hourly under #Sweden and #Sverige on **Twitter**! 🇸🇪  <br>
 I'm also a **Discord Bot** with multiple functions! <br>
-- [__📊 Explore my docs__](https://github.com/michalspano/The-Swedish-Bot) 
-- [__📩 Report an issue__](https://github.com/michalspano/The-Swedish-Bot/issues)
-- [__🌐 Website__](https://michalspano.github.io/The-Swedish-Bot/)
+
+## My socials
+
+<!-- Collapsible socials -->
+<details>
+    <summary>Open me!</summary>
+    <p>
+
+    - [__📊 Explore my docs__](https://github.com/michalspano/The-Swedish-Bot)
+    - [__📩 Report an issue__](https://github.com/michalspano/The-Swedish-Bot/issues)
+    - [__🌐 Website__](https://michalspano.github.io/The-Swedish-Bot/)
+    </p>
+</details>
 
 ## Details
 
