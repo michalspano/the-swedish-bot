@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Exclude secrets and .idea clutter and binaries
+# Exclude secrets, /.idea and binaries
 /docs/ignore
-.idea/
-.DS_Store
+/.idea/
+*.DS_Store
