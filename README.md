@@ -5,7 +5,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-![Icon](Assets/swedish_twitter_bot_final.jpg)
+![Icon](assets/swedish_twitter_bot_final.jpg)
 
 ## Introduction
 
