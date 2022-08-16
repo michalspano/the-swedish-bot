@@ -1,14 +1,14 @@
 Hej! I am the **Swedish Twitter Bot!**
 I *retweet* hourly under #Sweden and #Sverige on **Twitter** 🇸🇪
 
-Use any of my *commands* by the *default bot prefix* (abbreviation **DBP**) `--` or just *mention me* `@The Swedish Twitter Bot`;
-command prefix or command aliases (abbreviation **CP**).
+Use any of my *commands* by the *default bot prefix* (abbreviation **DBP**) `--` or just *mention me*; command prefix or command aliases (abbreviation **CP**).
 
 *NOTE*: different operators in a single command are stylized with a space
 
 📶 | **Status command**
-> Invoke aliases: `Status`, `status` or `s`
-> Syntax: `DBP CP`
+> Invoke aliases: `Status`, `status` or `st`
+> Syntax: `DBP CP` `count: int = 100`
+> The `count` parameter is optional and defaults to 100 - the number of tweets to be parsed in the response
 > Reports current trends about the database and the latency (ping) status
 
 ⏬ | **Load command**
@@ -18,12 +18,12 @@ command prefix or command aliases (abbreviation **CP**).
 > **Complex load**: Corresponding to *Default syntax*; `operator` prefix `recent` or `r`;
 > `n` specifies the *number of retrieved tweets*; `k` specifies their *input interval* (i.e. delay)
 > E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
+\*The __maximum__ number of tweet entries is **20**!
 
 ℹ️ | **Help command**
 > Invoke aliases: `Help`, `help`, `h`
 > Syntax: `DBP CP`
 > Reports possible guidance and appropriate information
-
 
 [@TheSwedishBot](https://twitter.com/TheSwedishBot)
 [@michalspano](https://github.com/michalspano)
