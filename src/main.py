@@ -45,9 +45,7 @@ class DataScrapeModel:
             Then, we append it to the DB, retweet & like, log it.
             '''
 
-            if not tweet_status.retweeted \
-                and not tweet_status.favorited \
-                and not tweet_status.possibly_sensitive:
+            if not tweet_status.retweeted and not tweet_status.favorited:
 
                 GoogleSpreadSheet(tweet).format_tweet()
                 tweet.favorite(), tweet.retweet()
