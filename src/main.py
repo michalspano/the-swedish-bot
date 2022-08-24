@@ -84,7 +84,7 @@ def main(key_tags: list, lang: list, interval: int) -> None:
 if __name__ == "__main__":
     LANG_SCOPE:     Final[List[str]] = ["en", "sv"]
     KEY_TAGS:       Final[List[str]] = ["#sweden", "#swedish"]
-    TIME_INTERVAL:  Final[int]       = 60
+    TIME_INTERVAL:  Final[int]       = 60 ** 2 # an hour
 
     alive()
     main((" OR ").join(KEY_TAGS), LANG_SCOPE, TIME_INTERVAL)
