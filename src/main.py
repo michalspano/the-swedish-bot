@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # Path: src/main.py
 
-from discord import Client
 from tweepy import Cursor, API, models
 from gspread import service_account
 
@@ -12,8 +11,6 @@ from utils.utils import logger
 
 from time import sleep
 from typing import Final, List
-
-client: Client = Client()
 
 class DataScrapeModel:
     def __init__(self, api: API, keyword: str, lang: list, tweet_range: int):
