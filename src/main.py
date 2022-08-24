@@ -6,7 +6,7 @@ from tweepy import Cursor, API, models
 from gspread import service_account
 
 from utils.app import alive
-from config import export_API
+from api_config import export_API
 from utils.utils import logger
 
 from time import sleep
