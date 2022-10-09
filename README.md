@@ -1,14 +1,14 @@
-<h1 align="center">The Swedish Twitter Bot </h1>
+<h1 align="center">The Swedish Twitter Bot</h1>
+
+<a href="https://twitter.com/TheSwedishBot">
+    <p align="center"><img src="assets/icon_round.png" width=200px height=auto></p>
+</a><br>
 
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![MIT License][license-shield]][license-url]
-
-<a href="https://twitter.com/TheSwedishBot">
-    <p align="center"><img src="assets/icon.png" width=250px height=250px></p>
-</a>
 
 ## Introduction
 
@@ -27,7 +27,9 @@ I'm also a **Discord Bot** with multiple functions! 🤖
 
 [**Twitter Profile**][TWITTER] -
 [**Tweets Database**][GS] -
-[**Add to your server!**][ADD] <br>
+[**Add to your server**][ADD] 🤖 <br>
+
+The __website__ is currently __deprecated__ and will be __replaced__ with a __new one__ in the future. The __documentation__ is __available__ on the __GitHub__ repository. For troubleshooting, __report__ any __issues__ on the __GitHub__ repository.
 
 \*__Packages__ used: `gspread`, `tweepy`, `discord.py`, `Flask`.
 
@@ -38,7 +40,7 @@ I'm also a **Discord Bot** with multiple functions! 🤖
 
 - Use the *command prefix or command aliases* (abbreviation **CP**).
 
-**NOTE**: different operators in a single command are stylized with a space.
+**Note**: different operators in a single command are stylized with a space.
 
 ### 📶 Status command
 
@@ -55,7 +57,7 @@ I'm also a **Discord Bot** with multiple functions! 🤖
 - **Complex load**: Corresponding to *Default syntax*; `operator` prefix `recent` or `r`;
  `n` specifies the *number of retrieved tweets*\*, `k` specifies their *input interval* (i.e. delay)
 
-> E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
+  - E.g., `--load recent 10 2` - loads 10 recent tweets and displays them with a 2 sec. delay
 
 \*The __maximum__ number of tweet entries is **20**! This is due to the limitations of the API.
 
