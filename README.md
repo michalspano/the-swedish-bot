@@ -36,20 +36,20 @@ The __website__ is currently __deprecated__ and will be __replaced__ with a __ne
 ## Bot commands
 
 - Use any of the **commands** with the *default bot prefix* (abbreviation **DBP**): `--` 
-  - or *mention* `@The Swedish Twitter Bot`.
 
+  \- or *mention* `@The Swedish Twitter Bot`.
 - Use the *command prefix or command aliases* (abbreviation **CP**).
 
 **Note**: different operators in a single command are stylized with a space.
 
-### 📶 Status command
+## 📶 Status command
 
 - Invoke aliases: `Status`, `status` or `st`
 - Syntax: `DBP CP` `count: int = 100`
 - The `count` parameter is optional and defaults to 100 - the number of tweets to be parsed in the response
 - Reports __current trends__ about the __database__ and the latency (ping) status
 
-### ⏬ Load command
+## ⏬ Load command
 
 - Invoke aliases: `Load`, `load`, `l`
 - __Default syntax__: `DBP CP operator n k`; `operator: str = None`, `n: int = 5`, `k: float = 5.0` [operator, $n$, $k$ are *optional values*; their *type* and *default value* is specified]
@@ -61,7 +61,7 @@ The __website__ is currently __deprecated__ and will be __replaced__ with a __ne
 
 \*The __maximum__ number of tweet entries is **20**! This is due to the limitations of the API.
 
-### ℹ️ Help command
+## ℹ️ Help command
 
 - Invoke aliases: `Help`, `help`, `h`
 - Syntax: `DBP CP`
