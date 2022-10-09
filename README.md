@@ -1,4 +1,4 @@
-<h1 style="text-align:center"> The Swedish Twitter Bot </h1>
+<h1 align="center">The Swedish Twitter Bot </h1>
 
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -6,9 +6,8 @@
 [![Contributors][contributors-shield]][contributors-url]
 [![MIT License][license-shield]][license-url]
 
-<!-- experimental centered; falling back if not working properly -->
 <a href="https://twitter.com/TheSwedishBot">
-    <p style="text-align:center"><img src="assets/icon.png" width=200px height=200px style="border-radius:25px"></p>
+    <p align="center"><img src="assets/icon.png" width=250px height=250px></p>
 </a>
 
 ## Introduction
@@ -17,14 +16,14 @@ _Hej!_ I am the [**Swedish Twitter Bot**][TWITTER]!
 I *retweet* hourly under `#Sweden` and `#Sverige` on **Twitter**! 🇸🇪 <br>
 I'm also a **Discord Bot** with multiple functions! 🤖
 
-### About me
+## About me
 
 <!-- - 🌐 | [**Website**](https://michalspano.github.io/the-swedish-bot/) currently deprecated --> 
 
 - 🔧 | [**Documentation**](https://github.com/michalspano/the-swedish-bot)
 - 📩 | [**Report issues**](https://github.com/michalspano/the-swedish-bot/issues)
 
-### Details
+## Details
 
 [**Twitter Profile**][TWITTER] -
 [**Tweets Database**][GS] -
@@ -32,7 +31,7 @@ I'm also a **Discord Bot** with multiple functions! 🤖
 
 \*__Packages__ used: `gspread`, `tweepy`, `discord.py`, `Flask`.
 
-### Bot commands
+## Bot commands
 
 - Use any of the **commands** with the *default bot prefix* (abbreviation **DBP**): `--` 
   - or *mention* `@The Swedish Twitter Bot`.
